@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studio Admin — Muhammed Rahib cp</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body>
+    <!-- Login -->
+    <div id="loginScreen">
+      <div class="login-card">
+        <h1>Studio Admin</h1>
+        <p class="sub">Sign in to manage your portfolio.</p>
+        <form id="loginForm">
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" required />
+          </div>
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" required />
+          </div>
+          <button type="submit" class="btn btn-primary" id="loginBtn">
+            <span class="btn-text">Sign In</span>
+            <span class="spinner-inline"></span>
+          </button>
+          <p class="login-error" id="loginError">Invalid email or password.</p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard">
+      <aside class="sidebar">
+        <h2>Studio Admin</h2>
+        <nav>
+          <button data-view="viewDashboard" class="active">Dashboard</button>
+          <button data-view="viewUpload">Upload Artwork</button>
+          <button data-view="viewManage">Manage Artworks</button>
+          <button data-view="viewMessages">
+            Messages <span id="unreadBadge" style="display: none"></span>
+          </button>
+        </nav>
+        <button class="btn btn-outline logout" id="logoutBtn">Log Out</button>
+      </aside>
+
+      <main class="main-content">
+        <!-- Dashboard view -->
+        <section class="view active" id="viewDashboard">
+          <header><h1>Dashboard</h1></header>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="num" id="statTotal">–</div>
+              <div class="label">Total Artworks</div>
+            </div>
+            <div class="stat-card">
+              <div class="num" id="statFeatured">–</div>
+              <div class="label">Featured Artworks</div>
+            </div>
+            <div class="stat-card">
+              <div class="num" id="statCategories">–</div>
+              <div class="label">Categories</div>
+            </div>
+          </div>
+          <h3 style="margin-bottom: 1rem; font-size: 1rem">Recently Added</h3>
+          <div class="recent-list" id="recentList"></div>
+        </section>
+
+        <!-- Upload view -->
+        <section class="view" id="viewUpload">
+          <header><h1>Upload Artwork</h1></header>
+          <div class="upload-card">
+            <form id="uploadForm">
+              <div class="field">
+                <label for="upTitle">Artwork Title</label>
+                <input type="text" id="upTitle" required />
+              </div>
+              <div class="field">
+                <label for="upDesc">Description</label>
+                <textarea id="upDesc" rows="3"></textarea>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="upCategory">Category</label>
+                  <select id="upCategory" required>
+                    <option value="portraits">Portraits</option>
+                    <option value="pencil">Pencil Art</option>
+                    <option value="charcoal">Charcoal</option>
+                    <option value="oil">Oil Paintings</option>
+                    <option value="acrylic">Acrylic</option>
+                    <option value="watercolor">Watercolor</option>
+                    <option value="canvas">Canvas</option>
+                    <option value="sketches">Sketches</option>
+                    <option value="logos">Logos</option>
+                    <option value="branding">Branding</option>
+                    <option value="posters">Posters</option>
+                    <option value="social">Social Media</option>
+                    <option value="digital">Digital Art</option>
+                    <option value="others">Others</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="upYear">Year</label>
+                  <input type="text" id="upYear" placeholder="2026" />
+                </div>
+              </div>
+              <div class="checkbox-row">
+                <input type="checkbox" id="upFeatured" />
+                <label for="upFeatured" style="margin: 0"
+                  >Mark as Featured</label
+                >
+              </div>
+              <div class="field">
+                <label for="upImage">Image</label>
+                <input type="file" id="upImage" accept="image/*" required />
+                <img id="upPreview" class="upload-preview" />
+              </div>
+              <button type="submit" class="btn btn-primary" id="uploadBtn">
+                <span class="btn-text">Upload Artwork</span>
+                <span class="spinner-inline"></span>
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Manage view -->
+        <section class="view" id="viewManage">
+          <header><h1>Manage Artworks</h1></header>
+          <div class="table-toolbar">
+            <select id="manageFilter">
+              <option value="all">All Categories</option>
+              <option value="portraits">Portraits</option>
+              <option value="pencil">Pencil Art</option>
+              <option value="charcoal">Charcoal</option>
+              <option value="oil">Oil Paintings</option>
+              <option value="acrylic">Acrylic</option>
+              <option value="watercolor">Watercolor</option>
+              <option value="canvas">Canvas</option>
+              <option value="sketches">Sketches</option>
+              <option value="logos">Logos</option>
+              <option value="branding">Branding</option>
+              <option value="posters">Posters</option>
+              <option value="social">Social Media</option>
+              <option value="digital">Digital Art</option>
+              <option value="others">Others</option>
+            </select>
+          </div>
+          <div class="artwork-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Preview</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Year</th>
+                  <th>Featured</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="artworkTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="manageEmpty" style="display: none">
+              No artworks match this filter.
+            </div>
+          </div>
+        </section>
+
+        <!-- Messages view -->
+        <section class="view" id="viewMessages">
+          <header><h1>Messages</h1></header>
+          <div class="table-toolbar">
+            <select id="messagesFilter">
+              <option value="all">All Messages</option>
+              <option value="unread">Unread Only</option>
+            </select>
+          </div>
+          <div class="artwork-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Contact</th>
+                  <th>Service</th>
+                  <th>Message</th>
+                  <th>Received</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="messagesTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="messagesEmpty" style="display: none">
+              No messages yet.
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Edit Modal (reuses upload form fields) -->
+    <div
+      id="editModal"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 18, 15, 0.6);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: #fff;
+          padding: 2rem;
+          max-width: 520px;
+          width: 90%;
+          border-radius: 4px;
+          max-height: 85vh;
+          overflow-y: auto;
+        "
+      >
+        <h3 style="margin-bottom: 1.2rem">Edit Artwork</h3>
+        <form id="editForm">
+          <input type="hidden" id="editId" />
+          <div class="field">
+            <label for="editTitle">Title</label
+            ><input type="text" id="editTitle" required />
+          </div>
+          <div class="field">
+            <label for="editDesc">Description</label
+            ><textarea id="editDesc" rows="3"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="editCategory">Category</label>
+              <select id="editCategory"></select>
+            </div>
+            <div class="field">
+              <label for="editYear">Year</label
+              ><input type="text" id="editYear" />
+            </div>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="editFeatured" />
+            <label for="editFeatured" style="margin: 0">Featured</label>
+          </div>
+          <div class="field">
+            <label for="editImage">Replace Image (optional)</label
+            ><input type="file" id="editImage" accept="image/*" />
+          </div>
+          <div style="display: flex; gap: 0.7rem; margin-top: 1rem">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-outline" id="cancelEdit">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="toast-admin" id="adminToast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>
