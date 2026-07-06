@@ -13,6 +13,26 @@
   let activeFilter = "all";
   let lightboxIndex = 0;
   let filteredList = [];
+  const visibleRows = 5;
+
+  function updateGridScroll() {
+    const cards = grid.querySelectorAll(".art-card, .skeleton-card");
+    const firstCard = cards[0];
+
+    grid.classList.remove("is-scrollable");
+    grid.style.maxHeight = "";
+    if (!firstCard) return;
+
+    const gridStyles = getComputedStyle(grid);
+    const columns = gridStyles.gridTemplateColumns.split(" ").length;
+    const rows = Math.ceil(cards.length / columns);
+    if (rows <= visibleRows) return;
+
+    const cardHeight = firstCard.getBoundingClientRect().height;
+    const rowGap = parseFloat(gridStyles.rowGap) || 0;
+    grid.style.maxHeight = `${cardHeight * visibleRows + rowGap * (visibleRows - 1)}px`;
+    grid.classList.add("is-scrollable");
+  }
 
   async function loadGallery() {
     try {
@@ -32,9 +52,11 @@
 
     if (filteredList.length === 0) {
       grid.innerHTML = `<p class="gallery-empty">No pieces in this category yet — check back soon.</p>`;
+      updateGridScroll();
       return;
     }
 
+    grid.scrollTop = 0;
     grid.innerHTML = "";
     filteredList.forEach((art, i) => {
       const card = document.createElement("div");
@@ -60,6 +82,8 @@
       img.addEventListener("load", () => card.classList.add("visible"));
       if (img.complete) card.classList.add("visible");
     });
+
+    requestAnimationFrame(updateGridScroll);
   }
 
   function escapeHtml(str = "") {
@@ -143,5 +167,12 @@
     if (e.key === "ArrowRight") document.getElementById("lightboxNext").click();
   });
 
+  let resizeFrame;
+  window.addEventListener("resize", () => {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(updateGridScroll);
+  });
+
+  requestAnimationFrame(updateGridScroll);
   loadGallery();
 })();

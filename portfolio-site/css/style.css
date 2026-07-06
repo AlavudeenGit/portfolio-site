@@ -747,6 +747,24 @@ section {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.4rem;
+  align-content: start;
+  scrollbar-gutter: stable;
+}
+.masonry.is-scrollable {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.6rem;
+}
+.masonry.is-scrollable::-webkit-scrollbar {
+  width: 7px;
+}
+.masonry.is-scrollable::-webkit-scrollbar-track {
+  background: var(--c-beige);
+  border-radius: 999px;
+}
+.masonry.is-scrollable::-webkit-scrollbar-thumb {
+  background: var(--c-gold);
+  border-radius: 999px;
 }
 .art-card {
   position: relative;
