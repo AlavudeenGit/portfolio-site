@@ -121,6 +121,9 @@ button {
   background: var(--c-charcoal);
   color: var(--c-off-white);
 }
+.logout{
+  color:#fff;
+}
 .btn-danger {
   color: #a4453b;
   border: 1px solid #a4453b;
